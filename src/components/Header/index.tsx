@@ -6,7 +6,7 @@ const Header = () => (
   <>
     <BannerImg style={{ backgroundImage: `url(${background})` }}>
       <HeaderContainer>
-        <LogoEfood>
+        <LogoEfood to={'/'}>
           <img src={logo} alt="logo efood" />
         </LogoEfood>
         <Titulo>Viva experiências gastronômicas no conforto da sua casa</Titulo>

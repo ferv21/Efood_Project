@@ -1,8 +1,7 @@
-import {
-  FaInstagramSquare,
-  FaFacebookSquare,
-  FaTwitterSquare
-} from 'react-icons/fa'
+import instagram from '../../assets/images/instagram.png'
+import facebook from '../../assets/images/facebook.png'
+import twitter from '../../assets/images/twitter.png'
+
 import { Footer, Logo, Icons, Descricao } from './styles'
 import LogoEfood from '../../assets/images/logo.png'
 
@@ -11,13 +10,13 @@ const FooterEfood = () => {
     <>
       <Footer>
         <div>
-          <Logo>
+          <Logo to={'/'}>
             <img src={LogoEfood} alt="logo efood" />
           </Logo>
           <Icons>
-            <FaInstagramSquare />
-            <FaFacebookSquare />
-            <FaTwitterSquare />
+            <img src={instagram} alt="" />
+            <img src={facebook} alt="" />
+            <img src={twitter} alt="" />
           </Icons>
           <Descricao>
             A efood é uma plataforma para divulgação de estabelecimentos, a

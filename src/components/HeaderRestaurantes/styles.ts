@@ -1,21 +1,44 @@
 import styled from 'styled-components'
 import { LogoEfood } from '../Header/styles'
 import { cores } from '../../styles'
+import { Link } from 'react-router-dom'
 
-export const HeaderContent = styled.div``
-
-export const LogoRestaurante = styled(LogoEfood)`
-  display: flex;
-  justify-content: center;
+export const HeaderContent = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  align-items: center;
+  max-width: 1024px;
+  width: 100%;
+  margin: 0 auto;
 `
+
+export const LogoRestaurante = styled(LogoEfood)``
 
 export const ListaRestaurantes = styled.div`
   display: flex;
   justify-content: space-between;
 
   h3 {
+    font-size: 18px;
     color: ${cores.vermelhoClaro};
   }
+`
+
+export const Restaurantes = styled(Link)`
+  color: ${cores.vermelhoClaro};
+  font-size: 18px;
+  font-weight: bold;
+  text-decoration: none;
+  line-height: 22px;
+`
+export const Carrinho = styled(Link)`
+  display: flex;
+  justify-content: end;
+  color: ${cores.vermelhoClaro};
+  font-size: 18px;
+  font-weight: bold;
+  text-decoration: none;
+  line-height: 22px;
 `
 
 export const BannerRestaurante = styled.div`

@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import { cores } from '../../styles'
+import { Link } from 'react-router-dom'
 
 export const Footer = styled.div`
   background-color: ${cores.corTexto};
@@ -9,7 +10,7 @@ export const Footer = styled.div`
   padding: 40px;
 `
 
-export const Logo = styled.div`
+export const Logo = styled(Link)`
   display: flex;
   justify-content: center;
 `
@@ -17,12 +18,15 @@ export const Logo = styled.div`
 export const Icons = styled.div`
   display: flex;
   justify-content: center;
-  color: ${cores.vermelhoClaro};
   margin-top: 32px;
-  font-size: 24px;
+
+  img {
+    margin-right: 8px;
+  }
 `
 
 export const Descricao = styled.p`
+  max-width: 480px;
   text-align: center;
   font-size: 10px;
   color: ${cores.vermelhoClaro};

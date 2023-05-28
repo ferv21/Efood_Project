@@ -5,7 +5,9 @@ import {
   ListaRestaurantes,
   LogoRestaurante,
   TituloRestaurante,
-  TagTipo
+  TagTipo,
+  Restaurantes,
+  Carrinho
 } from './styles'
 import background from '../../assets/images/fundo.png'
 import Logo from '../../assets/images/logo.png'
@@ -19,19 +21,13 @@ type Props = {
 const HeaderRestaurante = ({ produtos, title }: Props) => (
   <>
     <BannerImg style={{ backgroundImage: `url(${background})` }}>
-      <div className="container">
-        <HeaderContent>
-          <LogoRestaurante>
-            <img src={Logo} alt="logo efood" />
-          </LogoRestaurante>
-          <div>
-            <ListaRestaurantes>
-              <h3>Restaurantes</h3>
-              <h3>{produtos} produto(s) no carrinho</h3>
-            </ListaRestaurantes>
-          </div>
-        </HeaderContent>
-      </div>
+      <HeaderContent>
+        <Restaurantes to={'/'}>Restaurantes</Restaurantes>
+        <LogoRestaurante to={'/'}>
+          <img src={Logo} alt="logo efood" />
+        </LogoRestaurante>
+        <Carrinho to={'/'}>{produtos} produto(s) no carrinho</Carrinho>
+      </HeaderContent>
     </BannerImg>
 
     <BannerRestaurante style={{ backgroundImage: `url(${banner})` }}>
