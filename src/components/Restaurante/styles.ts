@@ -8,6 +8,7 @@ export const Card = styled.div`
   position: relative;
   border: 1px solid ${cores.vermelhoClaro};
   img {
+    object-fit: cover;
     width: 480px;
     height: 220px;
   }

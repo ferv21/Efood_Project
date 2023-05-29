@@ -1,44 +1,50 @@
 import { BannerImg } from '../Header/styles'
-import {
-  BannerRestaurante,
-  HeaderContent,
-  ListaRestaurantes,
-  LogoRestaurante,
-  TituloRestaurante,
-  TagTipo,
-  Restaurantes,
-  Carrinho
-} from './styles'
+import * as S from './styles'
 import background from '../../assets/images/fundo.png'
 import Logo from '../../assets/images/logo.png'
-import banner from '../../assets/images/bannerRestaurante.png'
+import { Restaurantes } from '../../pages/Home'
+import { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
 
-type Props = {
-  produtos: number
-  title: string
+const HeaderRestaurante = () => {
+  const { id } = useParams()
+
+  const [restaurante, setRestaurante] = useState<Restaurantes>()
+
+  useEffect(() => {
+    fetch(`https://fake-api-tau.vercel.app/api/efood/restaurantes/${id}`)
+      .then((res) => res.json())
+      .then((res) => setRestaurante(res))
+  }, [id])
+
+  if (!restaurante) {
+    return <h1>Carregando...</h1>
+  }
+
+  return (
+    <>
+      <BannerImg style={{ backgroundImage: `url(${background})` }}>
+        <S.HeaderContent>
+          <S.Restaurant to={'/'}>Restaurantes</S.Restaurant>
+          <S.LogoRestaurante to={'/'}>
+            <img src={Logo} alt="logo efood" />
+          </S.LogoRestaurante>
+          <S.Carrinho to={'/'}>0 produto(s) no carrinho</S.Carrinho>
+        </S.HeaderContent>
+      </BannerImg>
+
+      <S.BannerRestaurante
+        style={{ backgroundImage: `url(${restaurante.capa})` }}
+      >
+        <div className="container">
+          <S.TagTipo>{restaurante.tipo}</S.TagTipo>
+          <S.TituloRestaurante>
+            <h1>{restaurante.titulo}</h1>
+          </S.TituloRestaurante>
+        </div>
+      </S.BannerRestaurante>
+    </>
+  )
 }
-
-const HeaderRestaurante = ({ produtos, title }: Props) => (
-  <>
-    <BannerImg style={{ backgroundImage: `url(${background})` }}>
-      <HeaderContent>
-        <Restaurantes to={'/'}>Restaurantes</Restaurantes>
-        <LogoRestaurante to={'/'}>
-          <img src={Logo} alt="logo efood" />
-        </LogoRestaurante>
-        <Carrinho to={'/'}>{produtos} produto(s) no carrinho</Carrinho>
-      </HeaderContent>
-    </BannerImg>
-
-    <BannerRestaurante style={{ backgroundImage: `url(${banner})` }}>
-      <div className="container">
-        <TagTipo>Italiana</TagTipo>
-        <TituloRestaurante>
-          <h1>{title}</h1>
-        </TituloRestaurante>
-      </div>
-    </BannerRestaurante>
-  </>
-)
 
 export default HeaderRestaurante

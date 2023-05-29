@@ -1,57 +1,30 @@
 import CardapioLista from '../../components/CardapioLista'
 import HeaderRestaurante from '../../components/HeaderRestaurantes'
-import pizzamarguerita from '../../assets/images/pizzamarguerita.png'
+import { useState, useEffect } from 'react'
+import { useParams } from 'react-router-dom'
+import { Restaurantes } from '../Home'
 
-const cardapio = [
-  {
-    id: 1,
-    image: pizzamarguerita,
-    name: 'Pizza Marguerita',
-    description:
-      'A clássica Marguerita: molho de tomate suculento, mussarela derretida, manjericão fresco e um toque de azeite. Sabor e simplicidade!'
-  },
-  {
-    id: 2,
-    image: pizzamarguerita,
-    name: 'Pizza Marguerita',
-    description:
-      'A clássica Marguerita: molho de tomate suculento, mussarela derretida, manjericão fresco e um toque de azeite. Sabor e simplicidade!'
-  },
-  {
-    id: 3,
-    image: pizzamarguerita,
-    name: 'Pizza Marguerita',
-    description:
-      'A clássica Marguerita: molho de tomate suculento, mussarela derretida, manjericão fresco e um toque de azeite. Sabor e simplicidade!'
-  },
-  {
-    id: 4,
-    image: pizzamarguerita,
-    name: 'Pizza Marguerita',
-    description:
-      'A clássica Marguerita: molho de tomate suculento, mussarela derretida, manjericão fresco e um toque de azeite. Sabor e simplicidade!'
-  },
-  {
-    id: 5,
-    image: pizzamarguerita,
-    name: 'Pizza Marguerita',
-    description:
-      'A clássica Marguerita: molho de tomate suculento, mussarela derretida, manjericão fresco e um toque de azeite. Sabor e simplicidade!'
-  },
-  {
-    id: 6,
-    image: pizzamarguerita,
-    name: 'Pizza Marguerita',
-    description:
-      'A clássica Marguerita: molho de tomate suculento, mussarela derretida, manjericão fresco e um toque de azeite. Sabor e simplicidade!'
+const Local = () => {
+  const { id } = useParams()
+
+  const [cardapio, setCardapio] = useState<Restaurantes[]>([])
+
+  useEffect(() => {
+    fetch(`https://fake-api-tau.vercel.app/api/eplay/jogos/${id}`)
+      .then((res) => res.json())
+      .then((res) => setCardapio(res))
+  }, [id])
+
+  if (!cardapio) {
+    return <h3>Carregando...</h3>
   }
-]
 
-const Local = () => (
-  <>
-    <HeaderRestaurante produtos={5} title="La Dolce Vita Trattoria" />
-    <CardapioLista cardapio={cardapio} />
-  </>
-)
+  return (
+    <>
+      <HeaderRestaurante />
+      <CardapioLista />
+    </>
+  )
+}
 
 export default Local

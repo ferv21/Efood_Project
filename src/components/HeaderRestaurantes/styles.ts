@@ -24,7 +24,7 @@ export const ListaRestaurantes = styled.div`
   }
 `
 
-export const Restaurantes = styled(Link)`
+export const Restaurant = styled(Link)`
   color: ${cores.vermelhoClaro};
   font-size: 18px;
   font-weight: bold;

@@ -6,7 +6,8 @@ export const CardCardapio = styled.div`
   padding: 8px;
   color: ${cores.corTexto};
   img {
-    width: 100%;
+    width: 320px;
+    height: 180px;
   }
   h3 {
     margin-bottom: 8px;

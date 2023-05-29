@@ -6,15 +6,24 @@ type Props = {
   description: string
 }
 
-const Cardapio = ({ image, name, description }: Props) => (
-  <>
-    <CardCardapio>
-      <img src={image} alt="" />
-      <h3>{name}</h3>
-      <p>{description}</p>
-      <button>Adicionar ao carrinho</button>
-    </CardCardapio>
-  </>
-)
+const Cardapio = ({ image, name, description }: Props) => {
+  const getDescricao = (descricao: string) => {
+    if (descricao.length > 180) {
+      return descricao.slice(0, 177) + '...'
+    }
+    return descricao
+  }
+
+  return (
+    <>
+      <CardCardapio>
+        <img src={image} alt="" />
+        <h3>{name}</h3>
+        <p>{getDescricao(description)}</p>
+        <button>Adicionar ao carrinho</button>
+      </CardCardapio>
+    </>
+  )
+}
 
 export default Cardapio

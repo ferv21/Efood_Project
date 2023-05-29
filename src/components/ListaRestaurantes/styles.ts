@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-export const ListaContainer = styled.div`
+export const ListaContainer = styled.ul`
   margin-top: 80px;
   display: grid;
   grid-template-columns: 1fr 1fr;
