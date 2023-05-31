@@ -20,7 +20,7 @@ const Cardapio = ({ image, name, description }: Props) => {
         <img src={image} alt="" />
         <h3>{name}</h3>
         <p>{getDescricao(description)}</p>
-        <button>Adicionar ao carrinho</button>
+        <button>Mais detalhes</button>
       </CardCardapio>
     </>
   )

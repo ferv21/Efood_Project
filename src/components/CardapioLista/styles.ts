@@ -80,6 +80,7 @@ export const ModalContent = styled.div`
         border: none;
         color: ${cores.vermelhoClaro};
         background-color: ${cores.corTexto};
+        cursor: pointer;
       }
     }
   }

@@ -2,22 +2,24 @@ import { BannerImg } from '../Header/styles'
 import * as S from './styles'
 import background from '../../assets/images/fundo.png'
 import Logo from '../../assets/images/logo.png'
-import { Restaurantes } from '../../pages/Home'
-import { useEffect, useState } from 'react'
+
 import { useParams } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { open } from '../../store/reducers/cart'
+import { useGetBannerQuery } from '../../services/api'
+import { RootReducer } from '../../store'
 
 const HeaderRestaurante = () => {
   const { id } = useParams()
+  const { items } = useSelector((state: RootReducer) => state.cart)
+  const dispatch = useDispatch()
 
-  const [restaurante, setRestaurante] = useState<Restaurantes>()
+  const addToCart = () => {
+    dispatch(open())
+  }
+  const { data: bannerRestaurante } = useGetBannerQuery(id!)
 
-  useEffect(() => {
-    fetch(`https://fake-api-tau.vercel.app/api/efood/restaurantes/${id}`)
-      .then((res) => res.json())
-      .then((res) => setRestaurante(res))
-  }, [id])
-
-  if (!restaurante) {
+  if (!bannerRestaurante) {
     return <h1>Carregando...</h1>
   }
 
@@ -29,17 +31,19 @@ const HeaderRestaurante = () => {
           <S.LogoRestaurante to={'/'}>
             <img src={Logo} alt="logo efood" />
           </S.LogoRestaurante>
-          <S.Carrinho to={'/'}>0 produto(s) no carrinho</S.Carrinho>
+          <S.Carrinho onClick={addToCart}>
+            {items.length} produto(s) no carrinho
+          </S.Carrinho>
         </S.HeaderContent>
       </BannerImg>
 
       <S.BannerRestaurante
-        style={{ backgroundImage: `url(${restaurante.capa})` }}
+        style={{ backgroundImage: `url(${bannerRestaurante?.capa})` }}
       >
         <div className="container">
-          <S.TagTipo>{restaurante.tipo}</S.TagTipo>
+          <S.TagTipo>{bannerRestaurante.tipo}</S.TagTipo>
           <S.TituloRestaurante>
-            <h1>{restaurante.titulo}</h1>
+            <h1>{bannerRestaurante.titulo}</h1>
           </S.TituloRestaurante>
         </div>
       </S.BannerRestaurante>

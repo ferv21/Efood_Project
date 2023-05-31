@@ -1,11 +1,15 @@
+import { useState } from 'react'
+import { useParams } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+
 import Cardapio from '../Cardapio'
 import { Listagem, Modal, ModalContent } from './styles'
 import close from '../../assets/images/botaoFechar.png'
-import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { add, open } from '../../store/reducers/cart'
+import { useGetCardapioQuery } from '../../services/api'
 
-interface CardapioItem {
-  id: string
+export type CardapioItem = {
+  id: number
   foto: string
   titulo: string
   descricao: string
@@ -23,24 +27,30 @@ export const conversaoReal = (preco = 0) => {
 
 const CardapioLista = () => {
   const { id } = useParams()
+  const { data: cardapio } = useGetCardapioQuery(id!)
 
   const [modalAberta, setModalAberta] = useState(false)
-  const [cardapio, setCardapio] = useState<CardapioItem[]>([])
   const [itemCardapio, setItemCardapio] = useState<CardapioItem>()
-
-  useEffect(() => {
-    fetch(`https://fake-api-tau.vercel.app/api/efood/restaurantes/${id}`)
-      .then((res) => res.json())
-      .then((res) => setCardapio(res.cardapio))
-  }, [id])
-
-  if (cardapio.length === 0) {
-    return <h1>Carregando...</h1>
-  }
 
   function abrirModal(item: CardapioItem) {
     setModalAberta(true)
     setItemCardapio(item)
+  }
+
+  const dispatch = useDispatch()
+  const addToCart = () => {
+    if (itemCardapio) {
+      dispatch(add(itemCardapio))
+      dispatch(open())
+    }
+  }
+
+  if (!cardapio) {
+    return (
+      <>
+        <h4>Carregando...</h4>
+      </>
+    )
   }
 
   return (
@@ -74,7 +84,7 @@ const CardapioLista = () => {
                 <p>
                   Serve: <span>{itemCardapio?.porcao}</span>
                 </p>
-                <button>
+                <button onClick={addToCart}>
                   Adicionar ao carrinho
                   <span> {conversaoReal(itemCardapio?.preco)}</span>
                 </button>

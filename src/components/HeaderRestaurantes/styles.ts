@@ -27,16 +27,16 @@ export const ListaRestaurantes = styled.div`
 export const Restaurant = styled(Link)`
   color: ${cores.vermelhoClaro};
   font-size: 18px;
-  font-weight: bold;
+  font-weight: 900;
   text-decoration: none;
   line-height: 22px;
 `
-export const Carrinho = styled(Link)`
+export const Carrinho = styled.div`
   display: flex;
   justify-content: end;
   color: ${cores.vermelhoClaro};
   font-size: 18px;
-  font-weight: bold;
+  font-weight: 900;
   text-decoration: none;
   line-height: 22px;
 `
