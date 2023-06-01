@@ -39,6 +39,7 @@ export const Carrinho = styled.div`
   font-weight: 900;
   text-decoration: none;
   line-height: 22px;
+  cursor: pointer;
 `
 
 export const BannerRestaurante = styled.div`
