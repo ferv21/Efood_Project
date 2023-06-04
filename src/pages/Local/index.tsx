@@ -4,6 +4,7 @@ import HeaderRestaurante from '../../components/HeaderRestaurantes'
 import Cart from '../../components/Cart'
 import { useGetCardapioQuery } from '../../services/api'
 import { useParams } from 'react-router-dom'
+import Checkout from '../../components/Checkout'
 
 const Local = () => {
   const { id } = useParams()
@@ -20,6 +21,7 @@ const Local = () => {
       <HeaderRestaurante />
       <CardapioLista />
       <Cart />
+      <Checkout />
     </>
   )
 }

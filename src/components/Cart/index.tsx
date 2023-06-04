@@ -2,15 +2,21 @@ import { useDispatch, useSelector } from 'react-redux'
 import * as S from './styles'
 import { FaRegTrashAlt } from 'react-icons/fa'
 import { RootReducer } from '../../store/'
-import { close, remove } from '../../store/reducers/cart'
+import { close, orderOpen, remove } from '../../store/reducers/cart'
 import { conversaoReal } from '../CardapioLista'
 
 const Cart = () => {
-  const { isOpen, items } = useSelector((state: RootReducer) => state.cart)
+  const { isOpen, isOrderOpen, items } = useSelector(
+    (state: RootReducer) => state.cart
+  )
   const dispatch = useDispatch()
 
   const closeCart = () => {
     dispatch(close())
+  }
+
+  const openOrder = () => {
+    dispatch(orderOpen())
   }
 
   const getTotalPrice = () => {
@@ -46,7 +52,7 @@ const Cart = () => {
             <p>Valor total :</p>
             <span>{conversaoReal(getTotalPrice())}</span>
           </S.ValorTotal>
-          <S.Button>Continuar com a entrega</S.Button>
+          <S.Button onClick={openOrder}>Continuar com a entrega</S.Button>
         </S.SideBar>
       </S.CartContainer>
     </>

@@ -5,11 +5,13 @@ import { CardapioItem } from '../../components/CardapioLista'
 type CartState = {
   items: CardapioItem[]
   isOpen: boolean
+  isOrderOpen: boolean
 }
 
 const initialState: CartState = {
   items: [],
-  isOpen: false
+  isOpen: false,
+  isOrderOpen: false
 }
 
 const cartSlice = createSlice({
@@ -29,9 +31,16 @@ const cartSlice = createSlice({
     },
     close: (state) => {
       state.isOpen = false
+    },
+    orderOpen: (state) => {
+      state.isOrderOpen = true
+    },
+    closeOrderOpen: (state) => {
+      state.isOrderOpen = false
     }
   }
 })
 
-export const { add, remove, open, close } = cartSlice.actions
+export const { add, remove, open, close, orderOpen, closeOrderOpen } =
+  cartSlice.actions
 export default cartSlice.reducer
