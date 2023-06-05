@@ -77,3 +77,21 @@ export const Buttons = styled.div`
 export const OrderConfirm = styled(CartContainer)`
   display: flex;
 `
+
+export const MessageContainer = styled(CartContainer)`
+  display: flex;
+`
+
+export const SuccessMessage = styled(FormBar)`
+  h4 {
+    font-size: 16px;
+    font-weight: bold;
+    color: ${cores.corTexto};
+  }
+  p {
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 22px;
+    padding-top: 16px;
+  }
+`

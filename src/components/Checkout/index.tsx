@@ -1,23 +1,28 @@
 import { useDispatch, useSelector } from 'react-redux'
-import { Overlay } from '../Cart/styles'
-import { closeOrderOpen, open, orderOpen } from '../../store/reducers/cart'
+
+import { closeOrderOpen, open } from '../../store/reducers/cart'
 import {
   Buttons,
   FormBar,
   InputGroup,
   InputNumbers,
   OrderConfirm,
-  OrderContainer
+  OrderContainer,
+  MessageContainer,
+  SuccessMessage
 } from './styles'
 import { RootReducer } from '../../store'
 import { useState } from 'react'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
+import { usePurchaseMutation } from '../../services/api'
 
 const Checkout = () => {
   const { isOrderOpen } = useSelector((state: RootReducer) => state.cart)
   const dispatch = useDispatch()
   const [continuarPagamento, setContinuarPagamento] = useState(false)
+
+  const [purchase, { isSuccess, data }] = usePurchaseMutation()
 
   const form = useFormik({
     initialValues: {
@@ -34,16 +39,70 @@ const Checkout = () => {
       expiresMonth: '',
       expiresYear: ''
     },
-    validationSchema: {
+    validationSchema: Yup.object({
       fullName: Yup.string()
         .min(5, 'Nome inválido')
         .required('Nome obrigatório'),
       adress: Yup.string()
         .min(10, 'Endereço inválido')
-        .required('Endereço obrigatório')
-    },
+        .required('Endereço obrigatório'),
+      city: Yup.string()
+        .min(5, 'Endereço inválido')
+        .required('Endereço obrigatório'),
+      zipCode: Yup.string()
+        .min(9, 'Cep inválido')
+        .max(9, 'Cep inválido')
+        .required('Cep obrigatório'),
+      number: Yup.string()
+        .min(1, 'Número inválido')
+        .required('Numero obrigatório'),
+
+      cardOwner: Yup.string().when((values, schema) =>
+        continuarPagamento ? schema.required('O campo é obrigatório') : schema
+      ),
+      cardNumber: Yup.string().when((values, schema) =>
+        continuarPagamento ? schema.required('O campo é obrigatório') : schema
+      ),
+      cardCode: Yup.string().when((values, schema) =>
+        continuarPagamento ? schema.required('O campo é obrigatório') : schema
+      ),
+      expiresMonth: Yup.string().when((values, schema) =>
+        continuarPagamento ? schema.required('O campo é obrigatório') : schema
+      ),
+      expiresYear: Yup.string().when((values, schema) =>
+        continuarPagamento ? schema.required('O campo é obrigatório') : schema
+      )
+    }),
     onSubmit: (values) => {
-      console.log(values)
+      purchase({
+        delivery: {
+          receiver: values.fullName,
+          address: {
+            description: values.adress,
+            city: values.city,
+            zipCode: values.zipCode,
+            complement: values.complement,
+            number: 1
+          }
+        },
+        payment: {
+          card: {
+            name: values.cardOwner,
+            number: values.cardNumber,
+            code: Number(values.cardCode),
+            expires: {
+              month: 1,
+              year: 2023
+            }
+          }
+        },
+        products: [
+          {
+            id: 1,
+            price: 10
+          }
+        ]
+      })
     }
   })
 
@@ -56,153 +115,203 @@ const Checkout = () => {
     setContinuarPagamento(true)
   }
 
+  // const checkInputHasError = (fieldName: string) => {
+  //   const isTouched = fieldName in form.touched
+  //   const isInvalid = fieldName in form.errors
+  //   const hasError = isTouched && isInvalid
+
+  //   return hasError
+  // }
+
+  const getErrorMessage = (fieldName: string, message?: string) => {
+    const isTouched = fieldName in form.touched
+    const isInvalid = fieldName in form.errors
+
+    if (isTouched && isInvalid) return message
+
+    return ''
+  }
+
   console.log(form)
 
   return (
-    <form onSubmit={form.handleSubmit}>
-      <OrderContainer className={isOrderOpen ? 'is-open' : ''}>
-        <FormBar>
-          <p>Entrega</p>
-          <InputGroup>
-            <label htmlFor="fullName">Quem irá receber</label>
-            <input
-              type="text"
-              id="fullName"
-              name="fullName"
-              onChange={form.handleChange}
-              value={form.values.fullName}
-            />
-          </InputGroup>
-          <InputGroup>
-            <label htmlFor="adress">Endereço</label>
-            <input
-              type="text"
-              id="adress"
-              name="adress"
-              onChange={form.handleChange}
-              value={form.values.adress}
-            />
-          </InputGroup>
-          <InputGroup>
-            <label htmlFor="city">Cidade</label>
-            <input
-              type="text"
-              id="city"
-              name="city"
-              onChange={form.handleChange}
-              value={form.values.city}
-            />
-          </InputGroup>
-          <InputNumbers>
-            <div>
-              <label htmlFor="zipCode">Cep</label>
-              <input
-                type="text"
-                id="zipCode"
-                name="zipCode"
-                onChange={form.handleChange}
-                value={form.values.zipCode}
-              />
-            </div>
-            <div>
-              <label htmlFor="number">Número</label>
-              <input
-                type="text"
-                id="number"
-                name="number"
-                onChange={form.handleChange}
-                value={form.values.number}
-              />
-            </div>
-          </InputNumbers>
-          <InputGroup>
-            <label htmlFor="complement">Complemento (opcional)</label>
-            <input
-              type="text"
-              id="complement"
-              name="complement"
-              onChange={form.handleChange}
-              value={form.values.complement}
-            />
-          </InputGroup>
-          <Buttons>
-            <button onClick={pagamento}>Continuar com o pagamento</button>
-            <button onClick={addToCart}>Voltar para o carrinho</button>
-          </Buttons>
-        </FormBar>
-      </OrderContainer>
-      {continuarPagamento ? (
-        <OrderConfirm>
-          <FormBar>
+    <>
+      {isSuccess ? (
+        <MessageContainer>
+          <SuccessMessage>
+            <h4>Pedido realizado - {data.orderId}</h4>
             <p>
-              Pagamento - Valor a pagar <span>R$ 190,90</span>
+              Estamos felizes em informar que seu pedido já está em processo de
+              preparação e, em breve, será entregue no endereço fornecido.
             </p>
-            <InputGroup>
-              <label htmlFor="cardOwner">Nome do cartão</label>
-              <input
-                type="text"
-                id="cardOwner"
-                name="cardOwner"
-                onChange={form.handleChange}
-                value={form.values.cardOwner}
-              />
-            </InputGroup>
-            <InputNumbers style={{ gridTemplateColumns: '220px auto' }}>
-              <div>
-                <label htmlFor="cardNumber">Número do cartão</label>
-                <input
-                  type="number"
-                  id="cardNumber"
-                  name="cardNumber"
-                  onChange={form.handleChange}
-                  value={form.values.cardNumber}
-                />
-              </div>
-              <div>
-                <label htmlFor="cardCode">CVV</label>
-                <input
-                  type="number"
-                  id="cardCode"
-                  name="cardCode"
-                  onChange={form.handleChange}
-                  value={form.values.cardCode}
-                />
-              </div>
-            </InputNumbers>
-            <InputNumbers>
-              <div>
-                <label htmlFor="expiresMonth">Mês de vencimento</label>
-                <input
-                  type="number"
-                  id="expiresMonth"
-                  name="expiresMonth"
-                  onChange={form.handleChange}
-                  value={form.values.expiresMonth}
-                />
-              </div>
-              <div>
-                <label htmlFor="expiresYear">Ano de vencimento</label>
-                <input
-                  type="number"
-                  id="expiresYear"
-                  name="expiresYear"
-                  onChange={form.handleChange}
-                  value={form.values.expiresYear}
-                />
-              </div>
-            </InputNumbers>
+            <p>
+              Gostaríamos de ressaltar que nossos entregadores não estão
+              autorizados a realizar cobranças extras.
+            </p>
+            <p>
+              Lembre-se da importância de higienizar as mãos após o recebimento
+              do pedido, garantindo assim sua segurança e bem-estar durante a
+              refeição.
+            </p>
+            <p>
+              Esperamos que desfrute de uma deliciosa e agradável experiência
+              gastronômica. Bom apetite!
+            </p>
             <Buttons>
-              <button type="submit">Finalizar pagamento</button>
-              <button onClick={() => setContinuarPagamento(false)}>
-                Voltar para a edição de endereço
-              </button>
+              <button>Concluir</button>
             </Buttons>
-          </FormBar>
-        </OrderConfirm>
+          </SuccessMessage>
+        </MessageContainer>
       ) : (
-        <></>
+        <form onSubmit={form.handleSubmit}>
+          <OrderContainer className={isOrderOpen ? 'is-open' : ''}>
+            <FormBar>
+              <p>Entrega</p>
+              <InputGroup>
+                <label htmlFor="fullName">Quem irá receber</label>
+                <input
+                  type="text"
+                  id="fullName"
+                  name="fullName"
+                  onChange={form.handleChange}
+                  value={form.values.fullName}
+                />
+                <small>
+                  {getErrorMessage('fullName', form.errors.fullName)}
+                </small>
+              </InputGroup>
+              <InputGroup>
+                <label htmlFor="adress">Endereço</label>
+                <input
+                  type="text"
+                  id="adress"
+                  name="adress"
+                  onChange={form.handleChange}
+                  value={form.values.adress}
+                />
+              </InputGroup>
+              <InputGroup>
+                <label htmlFor="city">Cidade</label>
+                <input
+                  type="text"
+                  id="city"
+                  name="city"
+                  onChange={form.handleChange}
+                  value={form.values.city}
+                />
+              </InputGroup>
+              <InputNumbers>
+                <div>
+                  <label htmlFor="zipCode">Cep</label>
+                  <input
+                    type="text"
+                    id="zipCode"
+                    name="zipCode"
+                    onChange={form.handleChange}
+                    value={form.values.zipCode}
+                  />
+                </div>
+                <div>
+                  <label htmlFor="number">Número</label>
+                  <input
+                    type="text"
+                    id="number"
+                    name="number"
+                    onChange={form.handleChange}
+                    value={form.values.number}
+                  />
+                </div>
+              </InputNumbers>
+              <InputGroup>
+                <label htmlFor="complement">Complemento (opcional)</label>
+                <input
+                  type="text"
+                  id="complement"
+                  name="complement"
+                  onChange={form.handleChange}
+                  value={form.values.complement}
+                />
+              </InputGroup>
+              <Buttons>
+                <button onClick={pagamento}>Continuar com o pagamento</button>
+                <button onClick={addToCart}>Voltar para o carrinho</button>
+              </Buttons>
+            </FormBar>
+          </OrderContainer>
+          {continuarPagamento ? (
+            <OrderConfirm>
+              <FormBar>
+                <p>
+                  Pagamento - Valor a pagar <span>R$ 190,90</span>
+                </p>
+                <InputGroup>
+                  <label htmlFor="cardOwner">Nome do cartão</label>
+                  <input
+                    type="text"
+                    id="cardOwner"
+                    name="cardOwner"
+                    onChange={form.handleChange}
+                    value={form.values.cardOwner}
+                  />
+                </InputGroup>
+                <InputNumbers style={{ gridTemplateColumns: '220px auto' }}>
+                  <div>
+                    <label htmlFor="cardNumber">Número do cartão</label>
+                    <input
+                      type="number"
+                      id="cardNumber"
+                      name="cardNumber"
+                      onChange={form.handleChange}
+                      value={form.values.cardNumber}
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="cardCode">CVV</label>
+                    <input
+                      type="number"
+                      id="cardCode"
+                      name="cardCode"
+                      onChange={form.handleChange}
+                      value={form.values.cardCode}
+                    />
+                  </div>
+                </InputNumbers>
+                <InputNumbers>
+                  <div>
+                    <label htmlFor="expiresMonth">Mês de vencimento</label>
+                    <input
+                      type="number"
+                      id="expiresMonth"
+                      name="expiresMonth"
+                      onChange={form.handleChange}
+                      value={form.values.expiresMonth}
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="expiresYear">Ano de vencimento</label>
+                    <input
+                      type="number"
+                      id="expiresYear"
+                      name="expiresYear"
+                      onChange={form.handleChange}
+                      value={form.values.expiresYear}
+                    />
+                  </div>
+                </InputNumbers>
+                <Buttons>
+                  <button type="submit">Finalizar pagamento</button>
+                  <button onClick={() => setContinuarPagamento(false)}>
+                    Voltar para a edição de endereço
+                  </button>
+                </Buttons>
+              </FormBar>
+            </OrderConfirm>
+          ) : (
+            <></>
+          )}
+        </form>
       )}
-    </form>
+    </>
   )
 }
 
