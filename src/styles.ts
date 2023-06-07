@@ -6,6 +6,12 @@ export const cores = {
   corFundo: '#FFFFFF'
 }
 
+export const breakpoints = {
+  desktop: '1024px',
+  tablet: '820px',
+  cellphone: '768px'
+}
+
 const GlobalCss = createGlobalStyle`
   *{
     margin: 0;

@@ -1,9 +1,10 @@
 import { FadeLoader } from 'react-spinners'
 import { Container } from './styles'
+import { cores } from '../../styles'
 
 const Loader = () => (
   <Container>
-    <FadeLoader color="#36d7b7" />
+    <FadeLoader color={cores.vermelhoClaro} />
   </Container>
 )
 

@@ -56,7 +56,12 @@ const Cart = () => {
                 <p>Valor total :</p>
                 <span>{conversaoReal(getTotalPrice())}</span>
               </S.ValorTotal>
-              <S.Button onClick={openOrder}>Continuar com a entrega</S.Button>
+              <S.CartButtons>
+                <S.Button onClick={openOrder}>Continuar com a entrega</S.Button>
+                <S.Button className="display-button" onClick={closeCart}>
+                  Voltar ao cardápio
+                </S.Button>
+              </S.CartButtons>
             </>
           ) : (
             <>

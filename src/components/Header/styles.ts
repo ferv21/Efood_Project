@@ -1,8 +1,10 @@
 import styled from 'styled-components'
+import background from '../../assets/images/fundo.png'
 import { cores } from '../../styles'
 import { Link } from 'react-router-dom'
 
 export const BannerImg = styled.header`
+  background-image: url(${background});
   display: block;
   padding: 40px;
 `

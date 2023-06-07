@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { cores } from '../../styles'
+import { breakpoints, cores } from '../../styles'
 
 export const Overlay = styled.div`
   position: absolute;
@@ -31,6 +31,9 @@ export const SideBar = styled.aside`
   width: 100%;
   padding: 32px 8px 0px 8px;
   z-index: 1;
+
+  height: 100vh;
+  overflow-y: scroll;
 
   .empty-text {
     font-size: 16px;
@@ -84,4 +87,15 @@ export const Button = styled.button`
   background-color: ${cores.corTexto};
   color: ${cores.vermelhoClaro};
   cursor: pointer;
+`
+export const CartButtons = styled.div`
+  padding-bottom: 24px;
+
+  .display-button {
+    display: none;
+
+    @media (max-width: ${breakpoints.cellphone}) {
+      display: block;
+    }
+  }
 `

@@ -1,10 +1,10 @@
 import * as S from './styles'
-import background from '../../assets/images/fundo.png'
+
 import logo from '../../assets/images/logo.png'
 
 const Header = () => (
   <>
-    <S.BannerImg style={{ backgroundImage: `url(${background})` }}>
+    <S.BannerImg>
       <S.HeaderContainer>
         <S.LogoEfood to={'/'}>
           <img src={logo} alt="logo efood" />

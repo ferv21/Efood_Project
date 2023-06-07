@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { cores } from '../../styles'
+import { breakpoints, cores } from '../../styles'
 import { TagRestaurante } from '../Tag/styles'
 import { Link } from 'react-router-dom'
 
@@ -7,10 +7,19 @@ export const Card = styled.div`
   background-color: ${cores.corFundo};
   position: relative;
   border: 1px solid ${cores.vermelhoClaro};
+
+  @media (min-width: ${breakpoints.tablet}) {
+    width: 480px;
+  }
+
   img {
     object-fit: cover;
-    width: 480px;
+    width: 100%;
     height: 220px;
+
+    @media (max-width: ${breakpoints.tablet}) {
+      width: 100%;
+    }
   }
   ${TagRestaurante} {
     margin-left: 8px;

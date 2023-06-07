@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { LogoEfood } from '../Header/styles'
-import { cores } from '../../styles'
+import { breakpoints, cores } from '../../styles'
 import { Link } from 'react-router-dom'
 
 export const HeaderContent = styled.div`
@@ -10,6 +10,10 @@ export const HeaderContent = styled.div`
   max-width: 1024px;
   width: 100%;
   margin: 0 auto;
+
+  @media (max-width: ${breakpoints.cellphone}) {
+    grid-template-columns: 1fr 1fr;
+  }
 `
 
 export const LogoRestaurant = styled(LogoEfood)``
@@ -38,6 +42,7 @@ export const BannerRestaurant = styled.div`
   background-repeat: no-repeat;
   display: block;
   position: relative;
+
   &::after {
     position: absolute;
     background-color: #000;
@@ -58,6 +63,10 @@ export const RestaurantTitle = styled.div`
   color: ${cores.corFundo};
   padding-top: 216px;
   padding-bottom: 32px;
+
+  @media (max-width: ${breakpoints.tablet}) {
+    padding-left: 24px;
+  }
 `
 
 export const TagType = styled.span`
@@ -67,4 +76,8 @@ export const TagType = styled.span`
   font-size: 32px;
   font-weight: 100;
   color: ${cores.corFundo};
+
+  @media (max-width: ${breakpoints.tablet}) {
+    left: 16px;
+  }
 `

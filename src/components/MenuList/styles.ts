@@ -1,11 +1,32 @@
 import styled from 'styled-components'
-import { cores } from '../../styles'
+import { breakpoints, cores } from '../../styles'
 
 export const List = styled.ul`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-gap: 32px;
   padding-top: 56px;
+
+  @media (max-width: ${breakpoints.cellphone}) {
+    grid-template-columns: 1fr;
+    padding: 24px;
+    img {
+      width: 100%;
+    }
+  }
+
+  @media (min-width: ${breakpoints.tablet}) {
+    grid-template-columns: 1fr 1fr;
+    padding: 24px;
+    img {
+      width: 100%;
+    }
+  }
+
+  @media (min-width: ${breakpoints.desktop}) {
+    grid-template-columns: 1fr 1fr 1fr;
+    padding: 56px 0 0 0;
+  }
 `
 
 export const Modal = styled.div`
@@ -52,10 +73,17 @@ export const ModalContent = styled.div`
   > div {
     display: flex;
     padding: 0px 32px 32px 32px;
+    @media (max-width: ${breakpoints.cellphone}) {
+      flex-direction: column;
+      align-items: center;
+    }
     img {
       object-fit: cover;
       height: 280px;
       width: 280px;
+      @media (max-width: ${breakpoints.cellphone}) {
+        padding-bottom: 16px;
+      }
     }
 
     div {
