@@ -18,7 +18,7 @@ export const LogoEfood = styled(Link)`
   justify-content: center;
 `
 
-export const Titulo = styled.h1`
+export const Title = styled.h1`
   text-align: center;
   margin-top: 140px;
   font-weight: 900;

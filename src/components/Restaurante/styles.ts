@@ -36,7 +36,7 @@ export const Types = styled.div`
   top: 12px;
   right: 12px;
 `
-export const Descricao = styled.p`
+export const Description = styled.p`
   color: ${cores.vermelhoClaro};
   line-height: 22px;
   margin-top: 16px;

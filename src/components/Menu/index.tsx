@@ -1,4 +1,4 @@
-import { CardCardapio } from './styles'
+import { MenuCard } from './styles'
 
 type Props = {
   image: string
@@ -16,12 +16,12 @@ const Cardapio = ({ image, name, description }: Props) => {
 
   return (
     <>
-      <CardCardapio>
+      <MenuCard>
         <img src={image} alt="" />
         <h3>{name}</h3>
         <p>{getDescricao(description)}</p>
         <button>Mais detalhes</button>
-      </CardCardapio>
+      </MenuCard>
     </>
   )
 }

@@ -9,9 +9,9 @@ const Header = () => (
         <S.LogoEfood to={'/'}>
           <img src={logo} alt="logo efood" />
         </S.LogoEfood>
-        <S.Titulo>
+        <S.Title>
           Viva experiências gastronômicas no conforto da sua casa
-        </S.Titulo>
+        </S.Title>
       </S.HeaderContainer>
     </S.BannerImg>
   </>

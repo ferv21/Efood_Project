@@ -12,17 +12,7 @@ export const HeaderContent = styled.div`
   margin: 0 auto;
 `
 
-export const LogoRestaurante = styled(LogoEfood)``
-
-export const ListaRestaurantes = styled.div`
-  display: flex;
-  justify-content: space-between;
-
-  h3 {
-    font-size: 18px;
-    color: ${cores.vermelhoClaro};
-  }
-`
+export const LogoRestaurant = styled(LogoEfood)``
 
 export const Restaurant = styled(Link)`
   color: ${cores.vermelhoClaro};
@@ -31,7 +21,7 @@ export const Restaurant = styled(Link)`
   text-decoration: none;
   line-height: 22px;
 `
-export const Carrinho = styled.div`
+export const Cart = styled.div`
   display: flex;
   justify-content: end;
   color: ${cores.vermelhoClaro};
@@ -42,7 +32,7 @@ export const Carrinho = styled.div`
   cursor: pointer;
 `
 
-export const BannerRestaurante = styled.div`
+export const BannerRestaurant = styled.div`
   height: 280px;
   background-size: cover;
   background-repeat: no-repeat;
@@ -64,13 +54,13 @@ export const BannerRestaurante = styled.div`
     position: relative;
   }
 `
-export const TituloRestaurante = styled.div`
+export const RestaurantTitle = styled.div`
   color: ${cores.corFundo};
   padding-top: 216px;
   padding-bottom: 32px;
 `
 
-export const TagTipo = styled.span`
+export const TagType = styled.span`
   position: absolute;
   top: 24px;
   left: 0;

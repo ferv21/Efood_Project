@@ -31,6 +31,10 @@ export const InputGroup = styled.div`
     height: 32px;
     background-color: ${cores.corTexto};
     border: none;
+
+    &.error {
+      border: 3px solid gold;
+    }
   }
 `
 export const InputNumbers = styled.div`
@@ -54,6 +58,10 @@ export const InputNumbers = styled.div`
     width: 100%;
     background-color: ${cores.corTexto};
     border: none;
+
+    &.error {
+      border: 3px solid gold;
+    }
   }
 `
 
@@ -93,5 +101,26 @@ export const SuccessMessage = styled(FormBar)`
     font-weight: normal;
     line-height: 22px;
     padding-top: 16px;
+  }
+`
+
+export const ButtonPayment = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 16px;
+  p {
+    width: 100%;
+    margin-bottom: 8px;
+    height: 24px;
+    font-size: 14px;
+    font-weight: bold;
+    border: none;
+    background-color: ${cores.corTexto};
+    color: ${cores.vermelhoClaro};
+    cursor: pointer;
+    text-align: center;
+    padding: 4px 0;
   }
 `

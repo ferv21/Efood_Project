@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { cores } from '../../styles'
 
-export const CardCardapio = styled.div`
+export const MenuCard = styled.div`
   background-color: ${cores.vermelhoClaro};
   padding: 8px;
   color: ${cores.corTexto};
@@ -25,5 +25,6 @@ export const CardCardapio = styled.div`
     color: ${cores.vermelhoClaro};
     background-color: ${cores.corTexto};
     border: none;
+    cursor: pointer;
   }
 `

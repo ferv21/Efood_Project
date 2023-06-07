@@ -18,11 +18,11 @@ const FooterEfood = () => {
             <img src={facebook} alt="" />
             <img src={twitter} alt="" />
           </S.Icons>
-          <S.Descricao>
+          <S.Description>
             A efood é uma plataforma para divulgação de estabelecimentos, a
             responsabilidade pela entrega, qualidade dos produtos é toda do
             estabelecimento contratado.
-          </S.Descricao>
+          </S.Description>
         </div>
       </S.Footer>
     </>

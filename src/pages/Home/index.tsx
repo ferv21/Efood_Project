@@ -11,34 +11,17 @@ export type Restaurantes = {
   avaliacao: number
   descricao: string
   capa: string
-  cardapio: [
-    {
-      foto: string
-      preco: number
-      id: number
-      nome: string
-      descricao: string
-      porcao: string
-    }
-  ]
 }
 
 const Home = () => {
-  const { data: restaurante } = useGetRestaurantesQuery()
+  const { data: restaurante, isLoading } = useGetRestaurantesQuery()
 
-  if (restaurante) {
-    return (
-      <>
-        <Header />
-        <div className="container">
-          <ListaRestaurantes restaurantes={restaurante} />
-        </div>
-      </>
-    )
-  }
   return (
     <>
-      <h1>Carregando...</h1>
+      <Header />
+      <div className="container">
+        <ListaRestaurantes restaurantes={restaurante} isLoading={isLoading} />
+      </div>
     </>
   )
 }

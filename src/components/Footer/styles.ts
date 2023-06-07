@@ -25,7 +25,7 @@ export const Icons = styled.div`
   }
 `
 
-export const Descricao = styled.p`
+export const Description = styled.p`
   max-width: 480px;
   text-align: center;
   font-size: 10px;

@@ -1,25 +1,22 @@
-import CardapioLista from '../../components/CardapioLista'
-import HeaderRestaurante from '../../components/HeaderRestaurantes'
-
-import Cart from '../../components/Cart'
-import { useGetCardapioQuery } from '../../services/api'
 import { useParams } from 'react-router-dom'
+import { useGetCardapioQuery } from '../../services/api'
+
+import MenuList from '../../components/MenuList'
+import HeaderRestaurant from '../../components/HeaderRestaurantes'
+import Cart from '../../components/Cart'
 import Checkout from '../../components/Checkout'
+import Loader from '../../components/Loader'
 
 const Local = () => {
   const { id } = useParams()
   const { data: cardapio } = useGetCardapioQuery(id!)
   if (!cardapio) {
-    return (
-      <>
-        <h3>Carregando...</h3>
-      </>
-    )
+    return <Loader />
   }
   return (
     <>
-      <HeaderRestaurante />
-      <CardapioLista />
+      <HeaderRestaurant />
+      <MenuList />
       <Cart />
       <Checkout />
     </>

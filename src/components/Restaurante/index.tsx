@@ -1,5 +1,5 @@
 import Tag from '../Tag'
-import { Card, Title, Types, Descricao, LinkCard, Infos } from './styles'
+import * as S from './styles'
 
 type Props = {
   image: string
@@ -29,27 +29,27 @@ const Restaurante = ({
 
   return (
     <>
-      <Card>
+      <S.Card>
         <img src={image} alt="" />
-        <Types>
+        <S.Types>
           {destaque ? (
             <>
               <Tag>Destaque da semana</Tag>
             </>
           ) : null}
           <Tag>{types}</Tag>
-        </Types>
-        <Infos>
-          <Title>
+        </S.Types>
+        <S.Infos>
+          <S.Title>
             <h3>{title}</h3>
             <p>
               {rating} <span>★</span>
             </p>
-          </Title>
-          <Descricao>{getDescricao(description)}</Descricao>
-          <LinkCard to={`/restaurante/${id}`}>Saiba mais</LinkCard>
-        </Infos>
-      </Card>
+          </S.Title>
+          <S.Description>{getDescricao(description)}</S.Description>
+          <S.LinkCard to={`/restaurante/${id}`}>Saiba mais</S.LinkCard>
+        </S.Infos>
+      </S.Card>
     </>
   )
 }
