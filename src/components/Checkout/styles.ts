@@ -31,7 +31,12 @@ export const InputGroup = styled.div`
     height: 32px;
     background-color: ${cores.corTexto};
     border: none;
-
+    font-size: 14px;
+    font-weight: bold;
+    padding-left: 8px;
+    &:focus {
+      outline: none;
+    }
     &.error {
       border: 3px solid gold;
     }
@@ -54,11 +59,16 @@ export const InputNumbers = styled.div`
 
   input {
     margin-top: 8px;
+    font-size: 14px;
+    font-weight: bold;
+    padding-left: 8px;
     height: 32px;
     width: 100%;
     background-color: ${cores.corTexto};
     border: none;
-
+    &:focus {
+      outline: none;
+    }
     &.error {
       border: 3px solid gold;
     }

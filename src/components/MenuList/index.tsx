@@ -12,17 +12,7 @@ import * as S from './styles'
 import close from '../../assets/images/botaoFechar.png'
 import Loader from '../Loader'
 
-export type MenuItem = {
-  id: number
-  foto: string
-  titulo: string
-  descricao: string
-  preco: number
-  porcao: string
-  nome: string
-}
-
-export const conversaoReal = (preco = 0) => {
+export const parseToBrl = (preco = 0) => {
   return new Intl.NumberFormat('pt-BR', {
     style: 'currency',
     currency: 'BRL'
@@ -91,7 +81,7 @@ const MenuList = () => {
                 </p>
                 <button onClick={addToCart}>
                   Adicionar ao carrinho
-                  <span> {conversaoReal(itemCardapio?.preco)}</span>
+                  <span> {parseToBrl(itemCardapio?.preco)}</span>
                 </button>
               </div>
             </div>

@@ -1,7 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-import { MenuItem } from '../../components/MenuList'
-
 type CartState = {
   items: MenuItem[]
   isOpen: boolean

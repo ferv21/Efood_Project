@@ -4,7 +4,7 @@ import { FaRegTrashAlt } from 'react-icons/fa'
 import { RootReducer } from '../../store/'
 import { close, orderOpen, remove } from '../../store/reducers/cart'
 
-import { conversaoReal } from '../MenuList'
+import { parseToBrl } from '../MenuList'
 
 import * as S from './styles'
 
@@ -26,8 +26,8 @@ const Cart = () => {
   }
 
   const getTotalPrice = () => {
-    return items.reduce((acumulador, valorAtual) => {
-      return (acumulador += valorAtual.preco)
+    return items.reduce((accumulator, currentValue) => {
+      return (accumulator += currentValue.preco)
     }, 0)
   }
 
@@ -44,7 +44,7 @@ const Cart = () => {
                     <img src={item.foto} alt="" />
                     <div>
                       <h4>{item.nome}</h4>
-                      <span>{conversaoReal(item.preco)}</span>
+                      <span>{parseToBrl(item.preco)}</span>
                     </div>
                     <button onClick={() => removeItem(item.id)} type="button">
                       <FaRegTrashAlt />
@@ -54,7 +54,7 @@ const Cart = () => {
               </ul>
               <S.ValorTotal>
                 <p>Valor total :</p>
-                <span>{conversaoReal(getTotalPrice())}</span>
+                <span>{parseToBrl(getTotalPrice())}</span>
               </S.ValorTotal>
               <S.CartButtons>
                 <S.Button onClick={openOrder}>Continuar com a entrega</S.Button>

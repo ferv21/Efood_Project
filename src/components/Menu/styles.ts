@@ -5,6 +5,7 @@ export const MenuCard = styled.div`
   background-color: ${cores.vermelhoClaro};
   padding: 8px;
   color: ${cores.corTexto};
+  display: block;
   img {
     width: 320px;
     height: 180px;

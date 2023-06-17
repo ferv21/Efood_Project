@@ -1,14 +1,15 @@
 import { useDispatch, useSelector } from 'react-redux'
+import InputMask from 'react-input-mask'
+import { useNavigate } from 'react-router-dom'
+import { useFormik } from 'formik'
+import * as Yup from 'yup'
 
+import { useEffect, useState } from 'react'
 import { closeOrderOpen, open, clear, close } from '../../store/reducers/cart'
 import * as S from './styles'
 import { RootReducer } from '../../store'
-import { useEffect, useState } from 'react'
-import { useFormik } from 'formik'
-import * as Yup from 'yup'
 import { usePurchaseMutation } from '../../services/api'
-import { useNavigate } from 'react-router-dom'
-import { conversaoReal } from '../MenuList'
+import { parseToBrl } from '../MenuList'
 import { Overlay } from '../Cart/styles'
 
 const Checkout = () => {
@@ -76,7 +77,7 @@ const Checkout = () => {
             city: values.city,
             zipCode: values.zipCode,
             complement: values.complement,
-            number: 1
+            number: Number(values.number)
           }
         },
         payment: {
@@ -85,17 +86,15 @@ const Checkout = () => {
             number: values.cardNumber,
             code: Number(values.cardCode),
             expires: {
-              month: 1,
-              year: 2023
+              month: Number(values.expiresMonth),
+              year: Number(values.expiresYear)
             }
           }
         },
-        products: [
-          {
-            id: 1,
-            price: 10
-          }
-        ]
+        products: items.map((item) => ({
+          id: item.id,
+          price: item.preco as number
+        }))
       })
     }
   })
@@ -142,9 +141,9 @@ const Checkout = () => {
 
   return (
     <>
-      {isSuccess ? (
+      {isSuccess && data ? (
         <S.MessageContainer>
-          <Overlay />
+          <Overlay onClick={goToHome} />
           <S.SuccessMessage>
             <h4>Pedido realizado - {data.orderId}</h4>
             <p>
@@ -211,19 +210,20 @@ const Checkout = () => {
               <S.InputNumbers>
                 <div>
                   <label htmlFor="zipCode">Cep</label>
-                  <input
+                  <InputMask
                     type="text"
                     id="zipCode"
                     name="zipCode"
                     onChange={form.handleChange}
                     value={form.values.zipCode}
                     className={checkInputHasError('zipCode') ? 'error' : ''}
+                    mask="99999-999"
                   />
                 </div>
                 <div>
                   <label htmlFor="number">Número</label>
                   <input
-                    type="text"
+                    type="number"
                     id="number"
                     name="number"
                     onChange={form.handleChange}
@@ -254,7 +254,7 @@ const Checkout = () => {
               <S.FormBar>
                 <p>
                   Pagamento - Valor a pagar{' '}
-                  <span>{conversaoReal(getTotalPrice())}</span>
+                  <span>{parseToBrl(getTotalPrice())}</span>
                 </p>
                 <S.InputGroup>
                   <label htmlFor="cardOwner">Nome do cartão</label>
@@ -270,8 +270,8 @@ const Checkout = () => {
                 <S.InputNumbers style={{ gridTemplateColumns: '220px auto' }}>
                   <div>
                     <label htmlFor="cardNumber">Número do cartão</label>
-                    <input
-                      type="number"
+                    <InputMask
+                      type="text"
                       id="cardNumber"
                       name="cardNumber"
                       onChange={form.handleChange}
@@ -279,25 +279,27 @@ const Checkout = () => {
                       className={
                         checkInputHasError('cardNumber') ? 'error' : ''
                       }
+                      mask="9999 9999 9999 9999"
                     />
                   </div>
                   <div>
                     <label htmlFor="cardCode">CVV</label>
-                    <input
-                      type="number"
+                    <InputMask
+                      type="text"
                       id="cardCode"
                       name="cardCode"
                       onChange={form.handleChange}
                       value={form.values.cardCode}
                       className={checkInputHasError('cardCode') ? 'error' : ''}
+                      mask="999"
                     />
                   </div>
                 </S.InputNumbers>
                 <S.InputNumbers>
                   <div>
                     <label htmlFor="expiresMonth">Mês de vencimento</label>
-                    <input
-                      type="number"
+                    <InputMask
+                      type="text"
                       id="expiresMonth"
                       name="expiresMonth"
                       onChange={form.handleChange}
@@ -305,12 +307,13 @@ const Checkout = () => {
                       className={
                         checkInputHasError('expiresMonth') ? 'error' : ''
                       }
+                      mask="99"
                     />
                   </div>
                   <div>
                     <label htmlFor="expiresYear">Ano de vencimento</label>
-                    <input
-                      type="number"
+                    <InputMask
+                      type="text"
                       id="expiresYear"
                       name="expiresYear"
                       onChange={form.handleChange}
@@ -318,6 +321,7 @@ const Checkout = () => {
                       className={
                         checkInputHasError('expiresYear') ? 'error' : ''
                       }
+                      mask="9999"
                     />
                   </div>
                 </S.InputNumbers>
